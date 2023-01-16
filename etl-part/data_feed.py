@@ -57,7 +57,7 @@ if __name__ == "__main__":
     if check_valid_data(song_df):
         print("data is ready to upload")
 
-    database = 'postgresql+psycopg2://shaistha:shaistha@localhost:5432/mydb'
+    database = 'postgresql+psycopg2://usrpw@host:port/dbname'
 
     engine = create_engine(database)
     conn = engine.raw_connection()
