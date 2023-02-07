@@ -7,11 +7,13 @@ from  sqlalchemy import create_engine
 import logging
 from data_validation import check_valid_data
 
+#creating app to get a redirect uri
+
 # App config
 app = Flask(__name__)
 
 
-app.secret_key = 'jvlxjfdhsfgdrht'
+app.secret_key = 'something-random'
 app.config['SESSION_COOKIE_NAME'] = 'spotify-login-cookie'
 
 @app.route('/')
@@ -25,9 +27,9 @@ if __name__ == '__main__':
 
     try:
 
-        client_id='2e1afec1043741c3a5e81a77f52dc428'
-        client_secret='0e493fd1e669420a9963cc23b8368712'
-        redirect_uri=  'http://localhost:5000'
+        client_id='client_id'
+        client_secret='client_secret'
+        redirect_uri=  'http://localhost:5000/'
 
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                     client_secret= client_secret,
@@ -66,7 +68,7 @@ if __name__ == '__main__':
         logging.error('error in formatting the data',exc_info=True)
 
     try:
-        database = 'postgresql+psycopg2://shaistha:shaistha@localhost:5432/mydb'
+        database = 'postgresql+psycopg2://username:password@host:port/dbname'
 
         engine = create_engine(database)
         conn = engine.raw_connection()
