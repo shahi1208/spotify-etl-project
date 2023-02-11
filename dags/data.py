@@ -53,6 +53,12 @@ def spotify():
             'played_at' :played_at,
             'date':date},
             columns= ['song_name','artist_name','album_name','played_at','date'])
+        
+        yesterday = datetime.now() - timedelta(days=1)
+        yesterday_ts = yesterday.replace(hour=0,minute=0,second=0,microsecond=0)
+        song_df['date'] = pd.to_datetime(song_df['date'])
+
+        final_df = song_df[~(song_df['date'] != yesterday_ts)]
 
         database = 'postgresql+psycopg2://usr:pw@host:port/dbname'
 
@@ -61,7 +67,7 @@ def spotify():
         cursor = conn.cursor()
 
 
-        def check_valid_data(song_df):
+        def check_valid_data(final_df):
             if df.empty:
                 print('no songs were listened yesterday')
             return False
@@ -74,15 +80,6 @@ def spotify():
             if df.isnull().values.any():
                 raise Exception('null values found')
 
-
-            yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-            yesterday_ts = yesterday.replace(hour=0,minute=0,second=0,microsecond=0)
-            timestamps = df['date'].to_list()
-            for timestamp in timestamps:
-                if datetime.datetime.strptime(timestamp,'%Y-%m-%d') != yesterday_ts:
-                    raise Exception('invalid data, song is not from yesterday')
-                else:
-                    pass
 
             query = '''
             CREATE TABLE songs (
@@ -97,5 +94,5 @@ def spotify():
 
             cursor.execute(query)
 
-            song_df.to_sql('songs_table', engine, index=False, if_exists='append')
+            final_df.to_sql('songs_table', engine, index=False, if_exists='append')
             conn.close()
