@@ -63,6 +63,14 @@ if __name__ == '__main__':
             'played_at' :played_at,
             'date':date},
             columns= ['song_name','artist_name','album_name','played_at','date'])
+        
+        yesterday = datetime.now() - timedelta(days=1)
+        yesterday_ts = yesterday.replace(hour=0,minute=0,second=0,microsecond=0)
+        song_df['date'] = pd.to_datetime(song_df['date'])
+
+        final_df = song_df[~(song_df['date'] != yesterday_ts)]
+        print(final_df)
+ 
         logging.info('sucessfully transformed data')
     except:
         logging.error('error in formatting the data',exc_info=True)
@@ -80,7 +88,7 @@ if __name__ == '__main__':
 
     try:
 
-        if check_valid_data(song_df):
+        if check_valid_data(final_df):
 
             query = '''
             CREATE TABLE songs (
@@ -95,7 +103,7 @@ if __name__ == '__main__':
 
             cursor.execute(query)
 
-            song_df.to_sql('songs_table', engine, index=False, if_exists='append')
+            final_df.to_sql('songs_table', engine, index=False, if_exists='append')
             conn.close()
             logging.info('uploaded to database')
     except:
