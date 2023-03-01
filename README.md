@@ -13,9 +13,9 @@ create a virtual environment
 
 Spotipy (pip install spotipy) and required packages 
 
-Access to the Spotify API (you can get started https://github.com/spotipy-dev/spotipy)
+Access to the Spotify API (you can get started with [spotipy api](https://github.com/spotipy-dev/spotipy))
 
-Apache Airflow (instructions on how to install can be found https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html)
+Apache Airflow (instructions on how to install can be found [airflow official docs](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html))
 
 # Usage
 
@@ -25,7 +25,7 @@ Replace <YOUR_SPOTIFY_CLIENT_ID> and <YOUR_SPOTIFY_CLIENT_SECRET> in data_feed.p
 
 Set up your database connection in data_feed.py.py
 
-Set up Apache Airflow to run the data_feed DAG (instructions on how to do this can be found https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html)
+Set up Apache Airflow to run the data_feed DAG (instructions on how to do this can be found [airflow dag docs](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html))
 
 Run the DAG in Apache Airflow to extract and load data from the Spotify API
 # Data Validation
